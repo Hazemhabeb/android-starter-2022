@@ -5,6 +5,7 @@ import java.time.LocalDate
 data class Rocket(
     val id: String,
     val name: String,
+    val country: String, // New Field
     val costPerLaunch: Int,
     val firstFlight: LocalDate,
     val height: Int,

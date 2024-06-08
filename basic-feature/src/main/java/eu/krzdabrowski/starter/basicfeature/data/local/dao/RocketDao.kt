@@ -12,6 +12,9 @@ interface RocketDao {
     @Query("SELECT * FROM RocketCached")
     fun getRockets(): Flow<List<RocketCached>>
 
+    @Query("SELECT * FROM RocketCached WHERE id = :rocketId")
+    fun getRocketDetails(rocketId: String): Flow<RocketCached>
+
     @Upsert
     suspend fun saveRockets(rockets: List<RocketCached>)
 }

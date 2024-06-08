@@ -8,8 +8,10 @@ import dagger.hilt.components.SingletonComponent
 import eu.krzdabrowski.starter.basicfeature.data.remote.api.RocketApi
 import eu.krzdabrowski.starter.basicfeature.data.repository.RocketRepositoryImpl
 import eu.krzdabrowski.starter.basicfeature.domain.repository.RocketRepository
+import eu.krzdabrowski.starter.basicfeature.domain.usecase.GetRocketDetailsUseCase
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.GetRocketsUseCase
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.RefreshRocketsUseCase
+import eu.krzdabrowski.starter.basicfeature.domain.usecase.getRocketDetails
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.getRockets
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.refreshRockets
 import retrofit2.Retrofit
@@ -34,6 +36,12 @@ internal object RocketModule {
         return GetRocketsUseCase {
             getRockets(rocketRepository)
         }
+    }
+    @Provides
+    fun provideGetRocketDetailsUseCase(
+        rocketRepository: RocketRepository
+    ): GetRocketDetailsUseCase = GetRocketDetailsUseCase { rocketId ->
+        getRocketDetails(rocketRepository, rocketId)
     }
 
     @Provides

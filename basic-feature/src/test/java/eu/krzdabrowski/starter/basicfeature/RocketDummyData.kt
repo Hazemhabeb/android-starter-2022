@@ -7,6 +7,7 @@ import java.time.LocalDate
 internal fun generateTestRocketFromRemote() = RocketResponse(
     id = "1",
     name = "test rocket",
+    country = "US",
     costPerLaunch = 10_000_000,
     firstFlightDate = "2022-09-10",
     wikiUrl = "https://testrocket.com",
@@ -16,6 +17,7 @@ internal fun generateTestRocketFromRemote() = RocketResponse(
 internal fun generateTestRocketFromDomain() = Rocket(
     id = "1",
     name = "test rocket",
+    country = "US",
     costPerLaunch = 10_000_000,
     firstFlight = LocalDate.parse("2022-09-10"),
     height = 20,

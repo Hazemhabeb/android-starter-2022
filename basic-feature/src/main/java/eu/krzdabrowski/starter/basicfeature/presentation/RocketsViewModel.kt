@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.GetRocketsUseCase
 import eu.krzdabrowski.starter.basicfeature.domain.usecase.RefreshRocketsUseCase
-import eu.krzdabrowski.starter.basicfeature.presentation.RocketsEvent.OpenWebBrowserWithDetails
+import eu.krzdabrowski.starter.basicfeature.presentation.RocketsEvent.OpenDetailScreen
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RefreshRockets
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RocketClicked
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState
@@ -12,6 +12,7 @@ import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialS
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState.Fetched
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState.PartialState.Loading
 import eu.krzdabrowski.starter.basicfeature.presentation.mapper.toPresentationModel
+import eu.krzdabrowski.starter.basicfeature.presentation.model.RocketDisplayable
 import eu.krzdabrowski.starter.core.presentation.mvi.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -38,7 +39,7 @@ class RocketsViewModel @Inject constructor(
 
     override fun mapIntents(intent: RocketsIntent): Flow<PartialState> = when (intent) {
         is RefreshRockets -> refreshRockets()
-        is RocketClicked -> rocketClicked(intent.uri)
+        is RocketClicked -> rocketClicked(intent.rocket)
     }
 
     override fun reduceUiState(
@@ -57,6 +58,11 @@ class RocketsViewModel @Inject constructor(
         is Error -> previousState.copy(
             isLoading = false,
             isError = true,
+        )
+        is PartialState.FetchedDetails ->  previousState.copy(
+            isLoading = false,
+            rocketDetails = partialState.rocket,
+            isError = false,
         )
     }
 
@@ -86,9 +92,9 @@ class RocketsViewModel @Inject constructor(
         emit(Loading)
     }
 
-    private fun rocketClicked(uri: String): Flow<PartialState> = flow {
-        if (uri.startsWith(HTTP_PREFIX) || uri.startsWith(HTTPS_PREFIX)) {
-            setEvent(OpenWebBrowserWithDetails(uri))
-        }
+    private fun rocketClicked(rocket: RocketDisplayable): Flow<PartialState> = flow {
+//        if (uri.startsWith(HTTP_PREFIX) || uri.startsWith(HTTPS_PREFIX)) {
+            setEvent(OpenDetailScreen(rocket))
+//        }
     }
 }

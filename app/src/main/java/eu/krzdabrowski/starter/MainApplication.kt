@@ -5,6 +5,8 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
+import eu.krzdabrowski.starter.core.BuildConfig
+
 @HiltAndroidApp
 class MainApplication : Application() {
 

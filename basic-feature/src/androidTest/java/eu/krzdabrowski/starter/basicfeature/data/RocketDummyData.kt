@@ -8,6 +8,7 @@ internal fun generateTestRocketsFromPresentation() = listOf(
     RocketDisplayable(
         id = "1",
         name = "test rocket",
+        country = "US",
         costPerLaunchInMillions = 10,
         firstFlightDate = "2022-09-25",
         heightInMeters = 20,
@@ -18,6 +19,7 @@ internal fun generateTestRocketsFromPresentation() = listOf(
     RocketDisplayable(
         id = "2",
         name = "test rocket 2",
+        country = "US",
         costPerLaunchInMillions = 20,
         firstFlightDate = "2022-09-25",
         heightInMeters = 40,
@@ -28,6 +30,7 @@ internal fun generateTestRocketsFromPresentation() = listOf(
     RocketDisplayable(
         id = "3",
         name = "test rocket 3",
+        country = "US",
         costPerLaunchInMillions = 30,
         firstFlightDate = "2022-09-25",
         heightInMeters = 60,
@@ -41,6 +44,7 @@ internal fun generateTestRocketsFromDomain() = listOf(
     Rocket(
         id = "1",
         name = "test rocket",
+        country = "US",
         costPerLaunch = 10_000_000,
         firstFlight = LocalDate.parse("2022-09-25"),
         height = 20,
@@ -51,6 +55,7 @@ internal fun generateTestRocketsFromDomain() = listOf(
     Rocket(
         id = "2",
         name = "test rocket 2",
+        country = "US",
         costPerLaunch = 20_000_000,
         firstFlight = LocalDate.parse("2022-09-25"),
         height = 40,
@@ -61,6 +66,7 @@ internal fun generateTestRocketsFromDomain() = listOf(
     Rocket(
         id = "3",
         name = "test rocket 3",
+        country = "US",
         costPerLaunch = 30_000_000,
         firstFlight = LocalDate.parse("2022-09-25"),
         height = 60,

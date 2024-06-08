@@ -29,6 +29,14 @@ class RocketRepositoryImpl @Inject constructor(
             }
     }
 
+    override fun getRocketDetails(rocketId:String): Flow<Rocket> {
+        return rocketDao
+            .getRocketDetails(rocketId)
+            .map { rocketsCached ->
+                rocketsCached.toDomainModel()
+            }
+    }
+
     override suspend fun refreshRockets() {
         rocketApi
             .getRockets()

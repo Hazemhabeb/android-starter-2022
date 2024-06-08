@@ -19,22 +19,25 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import eu.krzdabrowski.starter.basicfeature.R
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsEvent
-import eu.krzdabrowski.starter.basicfeature.presentation.RocketsEvent.OpenWebBrowserWithDetails
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RefreshRockets
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsIntent.RocketClicked
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsUiState
 import eu.krzdabrowski.starter.basicfeature.presentation.RocketsViewModel
+import eu.krzdabrowski.starter.basicfeature.presentation.model.RocketDisplayable
+import eu.krzdabrowski.starter.core.navigation.NavigationDestination
 import eu.krzdabrowski.starter.core.utils.collectWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun RocketsRoute(
+    navController: NavHostController,
     viewModel: RocketsViewModel = hiltViewModel(),
 ) {
-    HandleEvents(viewModel.getEvents())
+    HandleEvents(viewModel.getEvents(),navController)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     RocketsScreen(
@@ -106,13 +109,12 @@ private fun HandlePullToRefresh(
 }
 
 @Composable
-private fun HandleEvents(events: Flow<RocketsEvent>) {
-    val uriHandler = LocalUriHandler.current
+private fun HandleEvents(events: Flow<RocketsEvent> , navController: NavHostController) {
 
     events.collectWithLifecycle {
         when (it) {
-            is OpenWebBrowserWithDetails -> {
-                uriHandler.openUri(it.uri)
+            is RocketsEvent.OpenDetailScreen -> {
+                navController.navigate(NavigationDestination.RocketDetail.createRoute(it.rocket.id))
             }
         }
     }
@@ -122,7 +124,7 @@ private fun HandleEvents(events: Flow<RocketsEvent>) {
 private fun RocketsAvailableContent(
     snackbarHostState: SnackbarHostState,
     uiState: RocketsUiState,
-    onRocketClick: (String) -> Unit,
+    onRocketClick: (RocketDisplayable) -> Unit,
 ) {
     if (uiState.isError) {
         val errorMessage = stringResource(R.string.rockets_error_refreshing)
